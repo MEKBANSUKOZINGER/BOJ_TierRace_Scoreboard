@@ -61,7 +61,10 @@ for user in BOJ_TOTAL_INFO.keys():
     _BOJ_USER_URL = f"https://solved.ac/api/v3/search/user?query={BOJ_TOTAL_INFO[user]['ID']}"
     userInfo = requests.get(_BOJ_USER_URL)
     userTemp = json.loads(userInfo.content.decode('utf-8')).get('items')
-
+    if len(userTemp) > 1 :
+        for userDict in userTemp :
+            if userDict['handle'] == BOJ_TOTAL_INFO[user]["ID"] :
+                userTemp = [userDict]
     # If user did nothing, set all 0
     if userTemp == [] :
         BOJ_TOTAL_INFO[user]["CurrentTier"] = BOJ_TIERS[0]
